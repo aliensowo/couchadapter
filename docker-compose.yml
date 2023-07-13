@@ -1,0 +1,17 @@
+version: '3.7'
+
+services:
+
+  adapter:
+    working_dir: '/usr/src/app'
+    build:
+      context: .
+      dockerfile: Dockerfile
+#    entrypoint: ['ls']
+    entrypoint: ['python', 'manage.py', 'test', 'couchadapter.tests']
+#    entrypoint: coverage run --omit=*management*  --source=couchadapter manage.py test couchadapter.tests
+#    entrypoint: '/bin/bash'
+    tty: True
+
+    volumes:
+      - '.:/usr/src/app'

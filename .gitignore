@@ -1,0 +1,9 @@
+.idea/
+venv/
+.coverage
+htmlcov
+__pycache__
+.DS_Store/
+dist
+couchadapter.egg-info
+build

@@ -1,0 +1,73 @@
+image: docker:latest
+
+variables:
+  DOCKER_DRIVER: overlay2
+
+stages:
+  - build
+  - test
+  - test37
+  - test38
+  - test39
+
+# если нужны свежие образы - раскомментить
+# build:
+#   stage: build
+#   script:
+#     - echo $CI_JOB_TOKEN | docker login -u $CI_REGISTRY_USER --password-stdin $CI_REGISTRY
+#     - docker pull python:$VERSION-buster || true
+#     - docker build
+#         --cache-from $CI_REGISTRY_IMAGE:$VERSION
+#         --tag $CI_REGISTRY_IMAGE:$VERSION
+#         --file ./python$VERSION.dockerfile
+#         "."
+#     - docker push $CI_REGISTRY_IMAGE:$VERSION
+#   parallel:
+#     matrix:
+#       - PROVIDER: python
+#         VERSION:
+#           - "3.7"
+#           - "3.8"
+#           - "3.9"
+
+#test:
+#  stage: test
+#  image: $CI_REGISTRY_IMAGE:$VERSION
+#  script:
+#    - ls -la
+#    - pip list
+#    - python manage.py test couchadapter.tests
+#  parallel:
+#    matrix:
+#      - PROVIDER: python
+#        VERSION:
+#          - "3.7"
+#          - "3.8"
+#          - "3.9"
+
+test37:
+  stage: test37
+  image: $CI_REGISTRY_IMAGE:3.7
+  script:
+    - ls -la
+    - pip list
+    - python manage.py test couchadapter.tests
+  retry: 2
+
+test38:
+  stage: test38
+  image: $CI_REGISTRY_IMAGE:3.8
+  script:
+    - ls -la
+    - pip list
+    - python manage.py test couchadapter.tests
+  retry: 2
+
+test39:
+  stage: test39
+  image: $CI_REGISTRY_IMAGE:3.9
+  script:
+    - ls -la
+    - pip list
+    - python manage.py test couchadapter.tests
+  retry: 2
